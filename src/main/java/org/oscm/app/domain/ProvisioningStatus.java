@@ -13,5 +13,4 @@ public enum ProvisioningStatus {
      * service should be running.
      */
     COMPLETED;
-
 }

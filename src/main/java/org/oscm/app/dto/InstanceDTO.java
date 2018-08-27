@@ -1,53 +1,42 @@
-package org.oscm.app.domain;
+package org.oscm.app.dto;
 
-import javax.persistence.*;
+import org.oscm.app.domain.ProvisioningStatus;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Instance {
+public class InstanceDTO {
 
-    @Id
-    @GeneratedValue
     private long tKey;
 
-    @Column(nullable = false)
     private String organizationId;
 
     private String organizationName;
 
-    @Column(nullable = false)
     private String subscriptionId;
 
     private String referenceId;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private ProvisioningStatus provisioningStatus;
 
     private String provisioningMsg;
 
-    @Column(nullable = false)
     private LocalDateTime requestTime;
 
-    @Column(nullable = false)
     private String instanceId;
 
-    @Column(nullable = false)
     private String controllerId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "instance", fetch = FetchType.LAZY)
-    private List<InstanceParameter> instanceParameters = new ArrayList<>();
+    private List<InstanceParameterDTO> parameters = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "instance", fetch = FetchType.LAZY)
-    private List<InstanceAttribute> instanceAttributes = new ArrayList<>();
+    private List<InstanceAttributeDTO> attributes = new ArrayList<>();
 
-    public long gettKey() {
+    public long getTKey() {
         return tKey;
     }
 
-    public void settKey(long tKey) {
+    public void setTKey(long tKey) {
         this.tKey = tKey;
     }
 
@@ -123,19 +112,37 @@ public class Instance {
         this.controllerId = controllerId;
     }
 
-    public List<InstanceParameter> getInstanceParameters() {
-        return instanceParameters;
+    public List<InstanceParameterDTO> getParameters() {
+        return parameters;
     }
 
-    public void setInstanceParameters(List<InstanceParameter> instanceParameters) {
-        this.instanceParameters = instanceParameters;
+    public void setParameters(List<InstanceParameterDTO> parameters) {
+        this.parameters = parameters;
     }
 
-    public List<InstanceAttribute> getInstanceAttributes() {
-        return instanceAttributes;
+    public List<InstanceAttributeDTO> getAttributes() {
+        return attributes;
     }
 
-    public void setInstanceAttributes(List<InstanceAttribute> instanceAttributes) {
-        this.instanceAttributes = instanceAttributes;
+    public void setAttributes(List<InstanceAttributeDTO> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return "InstanceDTO{" +
+                "tKey=" + tKey +
+                ", organizationId='" + organizationId + '\'' +
+                ", organizationName='" + organizationName + '\'' +
+                ", subscriptionId='" + subscriptionId + '\'' +
+                ", referenceId='" + referenceId + '\'' +
+                ", provisioningStatus=" + provisioningStatus +
+                ", provisioningMsg='" + provisioningMsg + '\'' +
+                ", requestTime=" + requestTime +
+                ", instanceId='" + instanceId + '\'' +
+                ", controllerId='" + controllerId + '\'' +
+                ", parameters=" + parameters +
+                ", attributes=" + attributes +
+                '}';
     }
 }
