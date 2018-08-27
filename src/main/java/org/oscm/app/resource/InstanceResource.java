@@ -34,7 +34,7 @@ public class InstanceResource {
 
         InstanceDTO createdInstance = instanceService.create(instanceDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdInstance.getTKey()).toUri();
-
+        System.out.println("jestem");
         return ResponseEntity.created(location).build();
     }
 
