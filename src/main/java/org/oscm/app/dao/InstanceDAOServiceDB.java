@@ -28,6 +28,10 @@ public class InstanceDAOServiceDB implements InstanceDAOService {
     public InstanceDTO create(InstanceDTO instanceDTO) {
 
         Instance instance = mapper.map(instanceDTO, Instance.class);
+
+        instance.getInstanceParameters().forEach(param->param.setInstance(instance));
+        instance.getInstanceAttributes().forEach(att->att.setInstance(instance));
+
         instance.setRequestTime(LocalDateTime.now(ZoneId.systemDefault()));
         instance.setProvisioningStatus(ProvisioningStatus.WAITING_FOR_SYSTEM_CREATION);
         instance.setInstanceId("some_generated_id");
