@@ -34,7 +34,6 @@ public class InstanceResource {
 
         InstanceDTO createdInstance = instanceService.create(instanceDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdInstance.getTKey()).toUri();
-
         return ResponseEntity.created(location).build();
     }
 
