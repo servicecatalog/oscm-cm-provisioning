@@ -3,7 +3,7 @@ package org.oscm.app.resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.oscm.app.dao.intf.InstanceDAOService;
+import org.oscm.app.service.intf.InstanceService;
 import org.oscm.app.domain.ProvisioningStatus;
 import org.oscm.app.dto.InstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,14 @@ public class InstanceResourceTest {
     private MockMvc mvc;
 
     @MockBean
-    private InstanceDAOService instanceService;
+    private InstanceService instanceService;
 
     @Test
     public void testGetInstanceResponse() throws Exception {
 
         // given
         InstanceDTO instanceDTO = new InstanceDTO();
-        instanceDTO.setTKey(1);
+        instanceDTO.setId(1);
         instanceDTO.setOrganizationId("sampleOrgId");
         instanceDTO.setReferenceId("13de453w");
         instanceDTO.setControllerId("ess.vmware");
@@ -55,7 +55,7 @@ public class InstanceResourceTest {
 
         // given
         InstanceDTO instanceDTO = new InstanceDTO();
-        instanceDTO.setTKey(1);
+        instanceDTO.setId(1);
         instanceDTO.setOrganizationId("sampleOrgId1");
         instanceDTO.setReferenceId("4667666");
         instanceDTO.setControllerId("ess.vmware");
@@ -63,7 +63,7 @@ public class InstanceResourceTest {
         instanceDTO.setSubscriptionId("sub_1244565");
 
         InstanceDTO instanceDTO2 = new InstanceDTO();
-        instanceDTO2.setTKey(2);
+        instanceDTO2.setId(2);
         instanceDTO2.setOrganizationId("sampleOrgId");
         instanceDTO2.setReferenceId("13de453w");
         instanceDTO2.setControllerId("ess.openstack");

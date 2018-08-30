@@ -2,18 +2,18 @@ package org.oscm.app.dto;
 
 public class InstanceAttributeDTO {
 
-    private long tKey;
+    private long id;
 
     private String key;
 
     private String value;
 
-    public long getTKey() {
-        return tKey;
+    public long getId() {
+        return id;
     }
 
-    public void setTKey(long tKey) {
-        this.tKey = tKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getKey() {
@@ -30,14 +30,5 @@ public class InstanceAttributeDTO {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "InstanceAttributeDTO{" +
-                "tKey=" + tKey +
-                ", key='" + key + '\'' +
-                ", value='" + value + '\'' +
-                '}';
     }
 }

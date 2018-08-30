@@ -1,7 +1,7 @@
-package org.oscm.app.dao;
+package org.oscm.app.service;
 
 import org.modelmapper.ModelMapper;
-import org.oscm.app.dao.intf.InstanceDAOService;
+import org.oscm.app.service.intf.InstanceService;
 import org.oscm.app.domain.Instance;
 import org.oscm.app.domain.ProvisioningStatus;
 import org.oscm.app.dto.InstanceDTO;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class InstanceDAOServiceDB implements InstanceDAOService {
+public class InstanceServiceImpl implements InstanceService {
 
     @Autowired
     private InstanceRepository repository;

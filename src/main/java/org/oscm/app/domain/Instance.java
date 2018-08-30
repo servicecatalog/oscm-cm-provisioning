@@ -10,7 +10,7 @@ public class Instance {
 
     @Id
     @GeneratedValue
-    private long tKey;
+    private long id;
 
     @Column(nullable = false)
     private String organizationId;
@@ -43,12 +43,12 @@ public class Instance {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "instance", fetch = FetchType.LAZY)
     private List<InstanceAttribute> instanceAttributes = new ArrayList<>();
 
-    public long gettKey() {
-        return tKey;
+    public long getId() {
+        return id;
     }
 
-    public void settKey(long tKey) {
-        this.tKey = tKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getOrganizationId() {

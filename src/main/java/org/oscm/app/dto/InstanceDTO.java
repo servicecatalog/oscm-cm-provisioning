@@ -2,18 +2,21 @@ package org.oscm.app.dto;
 
 import org.oscm.app.domain.ProvisioningStatus;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InstanceDTO {
 
-    private long tKey;
+    private long id;
 
+    @NotEmpty
     private String organizationId;
 
     private String organizationName;
 
+    @NotEmpty
     private String subscriptionId;
 
     private String referenceId;
@@ -26,18 +29,19 @@ public class InstanceDTO {
 
     private String instanceId;
 
+    @NotEmpty
     private String controllerId;
 
     private List<InstanceParameterDTO> parameters = new ArrayList<>();
 
     private List<InstanceAttributeDTO> attributes = new ArrayList<>();
 
-    public long getTKey() {
-        return tKey;
+    public long getId() {
+        return id;
     }
 
-    public void setTKey(long tKey) {
-        this.tKey = tKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getOrganizationId() {
@@ -126,23 +130,5 @@ public class InstanceDTO {
 
     public void setAttributes(List<InstanceAttributeDTO> attributes) {
         this.attributes = attributes;
-    }
-
-    @Override
-    public String toString() {
-        return "InstanceDTO{" +
-                "tKey=" + tKey +
-                ", organizationId='" + organizationId + '\'' +
-                ", organizationName='" + organizationName + '\'' +
-                ", subscriptionId='" + subscriptionId + '\'' +
-                ", referenceId='" + referenceId + '\'' +
-                ", provisioningStatus=" + provisioningStatus +
-                ", provisioningMsg='" + provisioningMsg + '\'' +
-                ", requestTime=" + requestTime +
-                ", instanceId='" + instanceId + '\'' +
-                ", controllerId='" + controllerId + '\'' +
-                ", parameters=" + parameters +
-                ", attributes=" + attributes +
-                '}';
     }
 }

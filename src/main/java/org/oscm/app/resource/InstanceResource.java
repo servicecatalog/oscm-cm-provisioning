@@ -1,6 +1,6 @@
 package org.oscm.app.resource;
 
-import org.oscm.app.dao.intf.InstanceDAOService;
+import org.oscm.app.service.intf.InstanceService;
 import org.oscm.app.dto.InstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 public class InstanceResource {
 
     @Autowired
-    private InstanceDAOService instanceService;
+    private InstanceService instanceService;
 
     @GetMapping("/instances")
     public List<InstanceDTO> getInstances() {
@@ -33,7 +33,7 @@ public class InstanceResource {
     public ResponseEntity<InstanceDTO> createInstance(@Valid @RequestBody InstanceDTO instanceDTO) {
 
         InstanceDTO createdInstance = instanceService.create(instanceDTO);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdInstance.getTKey()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdInstance.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 

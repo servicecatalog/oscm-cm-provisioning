@@ -1,11 +1,10 @@
-package org.oscm.app.dao.intf;
+package org.oscm.app.service.intf;
 
-import org.oscm.app.domain.Instance;
 import org.oscm.app.dto.InstanceDTO;
 
 import java.util.List;
 
-public interface InstanceDAOService {
+public interface InstanceService {
 
     InstanceDTO create(InstanceDTO instanceDTO);
 

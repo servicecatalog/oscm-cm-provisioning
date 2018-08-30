@@ -6,8 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
-import org.oscm.app.dao.InstanceDAOServiceDB;
-import org.oscm.app.dao.intf.InstanceDAOService;
+import org.oscm.app.service.intf.InstanceService;
 import org.oscm.app.domain.Instance;
 import org.oscm.app.domain.ProvisioningStatus;
 import org.oscm.app.dto.InstanceDTO;
@@ -22,14 +21,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
-public class InstanceDAOServiceDBTest {
+public class InstanceServiceTest {
 
     @TestConfiguration
     public static class InstanceDAOServiceDBTestConfiguration {
 
         @Bean
-        public InstanceDAOService instanceDAOService() {
-            return new InstanceDAOServiceDB();
+        public InstanceService instanceDAOService() {
+            return new InstanceServiceImpl();
         }
 
         @Bean
@@ -39,7 +38,7 @@ public class InstanceDAOServiceDBTest {
     }
 
     @Autowired
-    private InstanceDAOService service;
+    private InstanceService service;
 
     @MockBean
     private InstanceRepository repository;

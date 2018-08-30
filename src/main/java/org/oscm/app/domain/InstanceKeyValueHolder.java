@@ -7,7 +7,7 @@ public abstract class InstanceKeyValueHolder {
 
     @Id
     @GeneratedValue
-    private long tKey;
+    private long id;
 
     private String key;
 
@@ -16,12 +16,12 @@ public abstract class InstanceKeyValueHolder {
     @ManyToOne(fetch = FetchType.LAZY)
     private Instance instance;
 
-    public long gettKey() {
-        return tKey;
+    public long getId() {
+        return id;
     }
 
-    public void settKey(long tKey) {
-        this.tKey = tKey;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getKey() {
