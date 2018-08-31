@@ -9,7 +9,7 @@ public interface InstanceService {
 
     InstanceDTO create(InstanceDTO instanceDTO);
 
-    Optional<InstanceDTO> findOne(long id);
+    Optional<InstanceDTO> findById(long id);
 
     List<InstanceDTO> findAll();
 }

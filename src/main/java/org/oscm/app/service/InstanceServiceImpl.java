@@ -34,6 +34,8 @@ public class InstanceServiceImpl implements InstanceService {
 
         instance.setRequestTime(LocalDateTime.now(ZoneId.systemDefault()));
         instance.setProvisioningStatus(ProvisioningStatus.WAITING_FOR_SYSTEM_CREATION);
+
+        //TODO: generating unique instance id
         instance.setInstanceId("some_generated_id");
 
         Instance createdInstance = repository.save(instance);
@@ -43,12 +45,15 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
-    public InstanceDTO findById(long id) {
+    public Optional<InstanceDTO> findById(long id) {
 
         Optional<Instance> instance = repository.findById(id);
-        InstanceDTO mappedInstance = mapper.map(instance.get(), InstanceDTO.class);
+        if(instance.isPresent()){
+            InstanceDTO instanceDTO = mapper.map(instance.get(), InstanceDTO.class);
+            return Optional.of(instanceDTO);
+        }
 
-        return mappedInstance;
+        return Optional.empty();
     }
 
     @Override
