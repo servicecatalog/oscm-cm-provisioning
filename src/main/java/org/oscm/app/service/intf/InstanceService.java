@@ -3,12 +3,13 @@ package org.oscm.app.service.intf;
 import org.oscm.app.dto.InstanceDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface InstanceService {
 
     InstanceDTO create(InstanceDTO instanceDTO);
 
-    InstanceDTO findById(long id);
+    Optional<InstanceDTO> findOne(long id);
 
     List<InstanceDTO> findAll();
 }
