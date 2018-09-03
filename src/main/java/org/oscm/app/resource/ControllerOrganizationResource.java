@@ -2,6 +2,7 @@ package org.oscm.app.resource;
 
 import org.oscm.app.dto.ControllerDTO;
 import org.oscm.app.dto.ControllerOrganizationDTO;
+import org.oscm.app.dto.ControllerSettingDTO;
 import org.oscm.app.service.intf.ControllerOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,17 @@ public class ControllerOrganizationResource {
     public List<ControllerOrganizationDTO> getControllerOrganizations(@RequestParam("controllerId") String controllerId){
 
         return controllerOrganizationService.getControllerOrganizations(controllerId);
+    }
+
+    @GetMapping("/organizations/{orgId}/controllers")
+    public List<ControllerDTO> getOrganizationControllers(@PathVariable String orgId){
+
+        return controllerOrganizationService.getOrganizationControllers(orgId);
+    }
+
+    @GetMapping("/organizations/{orgId}/controllers/{controllerId}")
+    public List<ControllerSettingDTO> getControllerSettings(@PathVariable String orgId, @PathVariable String controllerId){
+
+        return controllerOrganizationService.getControllerSettings(controllerId, orgId);
     }
 }

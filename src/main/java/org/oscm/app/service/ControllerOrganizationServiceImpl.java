@@ -5,6 +5,7 @@ import org.oscm.app.domain.ControllerOrganization;
 import org.oscm.app.domain.enumeration.Controller;
 import org.oscm.app.dto.ControllerDTO;
 import org.oscm.app.dto.ControllerOrganizationDTO;
+import org.oscm.app.dto.ControllerSettingDTO;
 import org.oscm.app.exception.ObjectNotFoundException;
 import org.oscm.app.exception.ValidationException;
 import org.oscm.app.repository.ControllerOrganizationRepository;
@@ -32,8 +33,8 @@ public class ControllerOrganizationServiceImpl implements ControllerOrganization
 
         List<Controller> controllers = Arrays.asList(Controller.values());
         List<ControllerDTO> mappedControllers = controllers.stream()
-                                                           .map(controller -> mapper.map(controller, ControllerDTO.class))
-                                                           .collect(Collectors.toList());
+                .map(controller -> mapper.map(controller, ControllerDTO.class))
+                .collect(Collectors.toList());
         return mappedControllers;
     }
 
@@ -51,8 +52,8 @@ public class ControllerOrganizationServiceImpl implements ControllerOrganization
 
         List<ControllerOrganization> organizations = repository.findAll();
         List<ControllerOrganizationDTO> dtos = organizations.stream()
-                                                            .map(c -> toControllerOrganizationDTO(c))
-                                                            .collect(Collectors.toList());
+                .map(c -> toControllerOrganizationDTO(c))
+                .collect(Collectors.toList());
         return dtos;
     }
 
@@ -60,26 +61,53 @@ public class ControllerOrganizationServiceImpl implements ControllerOrganization
     public List<ControllerOrganizationDTO> getControllerOrganizations(String controllerId) {
 
         Optional<Controller> controller = getControllerById(controllerId);
-        if(!controller.isPresent()) {
+        if (!controller.isPresent()) {
             throw new ObjectNotFoundException("Controller [" + controllerId + "] has not been found");
         }
 
         List<ControllerOrganization> organizations = repository.findByController(controller.get());
         List<ControllerOrganizationDTO> dtos = organizations.stream()
-                                                            .map(c -> toControllerOrganizationDTO(c))
-                                                            .collect(Collectors.toList());
+                .map(c -> toControllerOrganizationDTO(c))
+                .collect(Collectors.toList());
         return dtos;
     }
 
-    private ControllerOrganization toControllerOrganization(ControllerOrganizationDTO dto){
+    @Override
+    public List<ControllerDTO> getOrganizationControllers(String orgId) {
+
+        List<ControllerOrganization> organizations = repository.findByOrganizationId(orgId);
+        List<ControllerDTO> controllers = organizations.stream()
+                .map(org -> mapper.map(org.getController(), ControllerDTO.class))
+                .collect(Collectors.toList());
+        return controllers;
+    }
+
+    @Override
+    public List<ControllerSettingDTO> getControllerSettings(String controllerId, String orgId) {
+
+        Optional<Controller> controller = getControllerById(controllerId);
+        if (!controller.isPresent()) {
+            throw new ObjectNotFoundException("Controller [" + controllerId + "] has not been found");
+        }
+
+        Optional<ControllerOrganization> organization = repository.findByOrganizationIdAndController(orgId, controller.get());
+
+        List<ControllerSettingDTO> settings = organization.get().getSettings().stream()
+                .map(setting -> mapper.map(setting, ControllerSettingDTO.class))
+                .collect(Collectors.toList());
+
+        return settings;
+    }
+
+    private ControllerOrganization toControllerOrganization(ControllerOrganizationDTO dto) {
 
         String controllerId = dto.getControllerId();
         Optional<Controller> controller = getControllerById(controllerId);
 
-        if(!controller.isPresent()){
+        if (!controller.isPresent()) {
             Stream<Controller> controllers = Arrays.stream(Controller.values());
             String ids = controllers.map(c -> c.getControllerId()).collect(Collectors.joining());
-            new ValidationException("Invalid controller id ["+controllerId+"], should be one of: "+ids);
+            new ValidationException("Invalid controller id [" + controllerId + "], should be one of: " + ids);
         }
 
         ControllerOrganization organization = new ControllerOrganization();
@@ -89,7 +117,7 @@ public class ControllerOrganizationServiceImpl implements ControllerOrganization
         return organization;
     }
 
-    private ControllerOrganizationDTO toControllerOrganizationDTO(ControllerOrganization organization){
+    private ControllerOrganizationDTO toControllerOrganizationDTO(ControllerOrganization organization) {
 
         ControllerOrganizationDTO dto = new ControllerOrganizationDTO();
         dto.setId(organization.getId());
@@ -99,7 +127,7 @@ public class ControllerOrganizationServiceImpl implements ControllerOrganization
         return dto;
     }
 
-    private Optional<Controller> getControllerById(String controllerId){
+    private Optional<Controller> getControllerById(String controllerId) {
 
         Stream<Controller> controllers = Arrays.stream(Controller.values());
         Optional<Controller> controller = controllers.filter(c -> c.getControllerId().equals(controllerId)).findFirst();

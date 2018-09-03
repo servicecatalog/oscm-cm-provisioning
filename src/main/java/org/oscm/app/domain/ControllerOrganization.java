@@ -45,4 +45,12 @@ public class ControllerOrganization {
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
+
+    public List<ControllerSetting> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(List<ControllerSetting> settings) {
+        this.settings = settings;
+    }
 }
