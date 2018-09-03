@@ -5,7 +5,7 @@ import org.oscm.app.dto.ControllerOrganizationDTO;
 
 import java.util.List;
 
-public interface ControllerService {
+public interface ControllerOrganizationService {
 
     public List<ControllerDTO> getAvailableControllers();
 

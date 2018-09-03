@@ -1,13 +1,14 @@
 package org.oscm.app.service;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.oscm.app.domain.ControllerOrganization;
 import org.oscm.app.domain.enumeration.Controller;
 import org.oscm.app.dto.ControllerDTO;
 import org.oscm.app.dto.ControllerOrganizationDTO;
+import org.oscm.app.exception.ObjectNotFoundException;
+import org.oscm.app.exception.ValidationException;
 import org.oscm.app.repository.ControllerOrganizationRepository;
-import org.oscm.app.service.intf.ControllerService;
+import org.oscm.app.service.intf.ControllerOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class ControllerServiceImpl implements ControllerService {
+public class ControllerOrganizationServiceImpl implements ControllerOrganizationService {
 
     @Autowired
     private ControllerOrganizationRepository repository;
@@ -28,6 +29,7 @@ public class ControllerServiceImpl implements ControllerService {
 
     @Override
     public List<ControllerDTO> getAvailableControllers() {
+
         List<Controller> controllers = Arrays.asList(Controller.values());
         List<ControllerDTO> mappedControllers = controllers.stream()
                                                            .map(controller -> mapper.map(controller, ControllerDTO.class))
@@ -46,26 +48,38 @@ public class ControllerServiceImpl implements ControllerService {
 
     @Override
     public List<ControllerOrganizationDTO> getAllControllerOrganizations() {
+
         List<ControllerOrganization> organizations = repository.findAll();
-        List<ControllerOrganizationDTO> dtos = organizations.stream().map(c -> toControllerOrganizationDTO(c))
-                                                                     .collect(Collectors.toList());
+        List<ControllerOrganizationDTO> dtos = organizations.stream()
+                                                            .map(c -> toControllerOrganizationDTO(c))
+                                                            .collect(Collectors.toList());
         return dtos;
     }
 
     @Override
     public List<ControllerOrganizationDTO> getControllerOrganizations(String controllerId) {
+
         Optional<Controller> controller = getControllerById(controllerId);
+        if(!controller.isPresent()) {
+            throw new ObjectNotFoundException("Controller [" + controllerId + "] has not been found");
+        }
+
         List<ControllerOrganization> organizations = repository.findByController(controller.get());
-        List<ControllerOrganizationDTO> dtos = organizations.stream().map(c -> toControllerOrganizationDTO(c))
+        List<ControllerOrganizationDTO> dtos = organizations.stream()
+                                                            .map(c -> toControllerOrganizationDTO(c))
                                                             .collect(Collectors.toList());
         return dtos;
     }
 
     private ControllerOrganization toControllerOrganization(ControllerOrganizationDTO dto){
 
-        Optional<Controller> controller = getControllerById(dto.getControllerId());
+        String controllerId = dto.getControllerId();
+        Optional<Controller> controller = getControllerById(controllerId);
+
         if(!controller.isPresent()){
-            //TODO: exception when controller does not exist
+            Stream<Controller> controllers = Arrays.stream(Controller.values());
+            String ids = controllers.map(c -> c.getControllerId()).collect(Collectors.joining());
+            new ValidationException("Invalid controller id ["+controllerId+"], should be one of: "+ids);
         }
 
         ControllerOrganization organization = new ControllerOrganization();
@@ -86,6 +100,7 @@ public class ControllerServiceImpl implements ControllerService {
     }
 
     private Optional<Controller> getControllerById(String controllerId){
+
         Stream<Controller> controllers = Arrays.stream(Controller.values());
         Optional<Controller> controller = controllers.filter(c -> c.getControllerId().equals(controllerId)).findFirst();
         return controller;

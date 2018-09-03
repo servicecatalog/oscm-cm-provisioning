@@ -1,6 +1,5 @@
 package org.oscm.app.exception;
 
-import org.modelmapper.ValidationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +26,17 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public final ResponseEntity handleObjectNotFoundExceptions(ObjectNotFoundException exception, WebRequest request){
+    public final ResponseEntity handleObjectNotFoundException(ObjectNotFoundException exception, WebRequest request){
 
         ExceptionResponse response = new ExceptionResponse(LocalDateTime.now(), exception.getMessage());
         return new ResponseEntity(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public final ResponseEntity handleValidationException(ValidationException exception, WebRequest request){
+
+        ExceptionResponse response = new ExceptionResponse(LocalDateTime.now(), exception.getMessage());
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 
     @Override
