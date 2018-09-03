@@ -1,11 +1,10 @@
 package org.oscm.app.repository;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 import org.oscm.app.domain.Instance;
-import org.oscm.app.domain.ProvisioningStatus;
+import org.oscm.app.domain.enumeration.ProvisioningStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;

@@ -3,7 +3,7 @@ package org.oscm.app.service;
 import org.modelmapper.ModelMapper;
 import org.oscm.app.service.intf.InstanceService;
 import org.oscm.app.domain.Instance;
-import org.oscm.app.domain.ProvisioningStatus;
+import org.oscm.app.domain.enumeration.ProvisioningStatus;
 import org.oscm.app.dto.InstanceDTO;
 import org.oscm.app.repository.InstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

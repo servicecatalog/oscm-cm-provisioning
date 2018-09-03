@@ -1,6 +1,6 @@
 package org.oscm.app.dto;
 
-import org.oscm.app.domain.ProvisioningStatus;
+import org.oscm.app.domain.enumeration.ProvisioningStatus;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;

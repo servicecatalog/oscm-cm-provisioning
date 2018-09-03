@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.oscm.app.service.intf.InstanceService;
-import org.oscm.app.domain.ProvisioningStatus;
+import org.oscm.app.domain.enumeration.ProvisioningStatus;
 import org.oscm.app.dto.InstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

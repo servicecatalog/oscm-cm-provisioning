@@ -1,4 +1,4 @@
-package org.oscm.app.domain;
+package org.oscm.app.domain.enumeration;
 
 public enum ProvisioningStatus {
 

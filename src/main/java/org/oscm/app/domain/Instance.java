@@ -1,5 +1,7 @@
 package org.oscm.app.domain;
 
+import org.oscm.app.domain.enumeration.ProvisioningStatus;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
