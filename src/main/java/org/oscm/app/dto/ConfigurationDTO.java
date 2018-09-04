@@ -1,11 +1,19 @@
 package org.oscm.app.dto;
 
-public class ControllerOrganizationDTO {
+import org.oscm.app.domain.enumeration.Controller;
+import org.oscm.app.validation.ControllerId;
+
+import javax.validation.constraints.NotEmpty;
+
+public class ConfigurationDTO {
 
     private long id;
 
+    @NotEmpty
+    @ControllerId
     private String controllerId;
 
+    @NotEmpty
     private String organizationId;
 
     public long getId() {

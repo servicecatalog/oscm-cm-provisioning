@@ -1,6 +1,6 @@
 package org.oscm.app.dto;
 
-public class ControllerSettingDTO {
+public class ConfigurationSettingDTO {
 
     private String key;
 

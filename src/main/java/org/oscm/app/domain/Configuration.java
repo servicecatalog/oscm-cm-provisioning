@@ -6,7 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class ControllerOrganization {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"controller", "organizationId"}))
+public class Configuration {
 
     @Id
     @GeneratedValue
@@ -19,8 +20,8 @@ public class ControllerOrganization {
     @Column(nullable = false)
     private String organizationId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "controllerOrganization", fetch = FetchType.LAZY)
-    private List<ControllerSetting> settings;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "configuration", fetch = FetchType.LAZY)
+    private List<ConfigurationSetting> settings;
 
     public long getId() {
         return id;
@@ -46,11 +47,11 @@ public class ControllerOrganization {
         this.organizationId = organizationId;
     }
 
-    public List<ControllerSetting> getSettings() {
+    public List<ConfigurationSetting> getSettings() {
         return settings;
     }
 
-    public void setSettings(List<ControllerSetting> settings) {
+    public void setSettings(List<ConfigurationSetting> settings) {
         this.settings = settings;
     }
 }
