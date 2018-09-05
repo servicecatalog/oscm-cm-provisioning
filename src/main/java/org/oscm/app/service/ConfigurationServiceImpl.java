@@ -30,8 +30,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
         List<Controller> controllers = Arrays.asList(Controller.values());
         List<ControllerDTO> mappedControllers = controllers.stream()
-                                                           .map(controller -> mapper.map(controller, ControllerDTO.class))
-                                                           .collect(Collectors.toList());
+                .map(controller -> mapper.map(controller, ControllerDTO.class))
+                .collect(Collectors.toList());
         return mappedControllers;
     }
 
@@ -64,8 +64,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
         List<Configuration> configurations = repository.findAll();
         List<ConfigurationDTO> dtos = configurations.stream()
-                                                   .map(c -> toConfigurationDTO(c))
-                                                   .collect(Collectors.toList());
+                .map(c -> toConfigurationDTO(c))
+                .collect(Collectors.toList());
+
         return dtos;
     }
 
@@ -76,7 +77,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         String orgId = configuration.getOrganizationId();
         Optional<Controller> controller = getControllerById(controllerId);
 
-        Optional<Configuration> optional = repository.findByOrganizationIdAndController(orgId, controller.get());
+        Optional<Configuration> optional = repository.findByOrganizationIdAndController(orgId,
+                controller.get());
 
         return optional.isPresent();
     }
@@ -102,8 +104,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     public List<ConfigurationDTO> getConfigurationsForOrganization(String organizationId) {
         List<Configuration> configurations = repository.findByOrganizationId(organizationId);
         List<ConfigurationDTO> dtos = configurations.stream()
-                                                   .map(c -> toConfigurationDTO(c))
-                                                   .collect(Collectors.toList());
+                .map(c -> toConfigurationDTO(c))
+                .collect(Collectors.toList());
+
         return dtos;
     }
 
@@ -132,8 +135,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     private Optional<Controller> getControllerById(String controllerId) {
 
-        Stream<Controller> controllers = Arrays.stream(Controller.values());
-        Optional<Controller> controller = controllers.filter(c -> c.getControllerId().equals(controllerId)).findFirst();
+        Optional<Controller> controller = Arrays.stream(Controller.values())
+                .filter(c -> c.getControllerId().equals(controllerId))
+                .findFirst();
+
         return controller;
     }
 }

@@ -1,7 +1,11 @@
 package org.oscm.app.exception;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDateTime;
 
+@ApiModel(value = "Error", description = "Response returned in case of error")
 public class ExceptionResponse {
 
     public ExceptionResponse(LocalDateTime timestamp, String errorMessage) {
@@ -9,8 +13,10 @@ public class ExceptionResponse {
         this.errorMessage = errorMessage;
     }
 
+    @ApiModelProperty("Timestamp of the appeared error")
     private LocalDateTime timestamp;
 
+    @ApiModelProperty("Message describing the error")
     private String errorMessage;
 
 
