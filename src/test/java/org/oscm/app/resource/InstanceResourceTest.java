@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,7 +42,7 @@ public class InstanceResourceTest {
         instanceDTO.setProvisioningStatus(ProvisioningStatus.COMPLETED);
         instanceDTO.setSubscriptionId("sub_3451245");
 
-        Mockito.when(instanceService.findById(1)).thenReturn(instanceDTO);
+        Mockito.when(instanceService.findById(1)).thenReturn(Optional.of(instanceDTO));
 
         // when and then
         mvc.perform(get("/instances/1"))
