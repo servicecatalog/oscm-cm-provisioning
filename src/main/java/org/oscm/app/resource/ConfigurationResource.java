@@ -68,6 +68,20 @@ public class ConfigurationResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdConfiguration);
     }
 
+    @ApiOperation("Retrieves existing configuration")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
+    })
+    @GetMapping("/configurations/{id}")
+    public ResponseEntity<ConfigurationDTO> getConfiguration(
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long id) {
+
+        Optional<ConfigurationDTO> configuration = configurationService.getConfigurationById(id);
+        checkIfIdOfConfigurationIsValid(id, configuration);
+
+        return ResponseEntity.ok(configuration.get());
+    }
+
     @ApiOperation("Updates existing configuration")
     @ApiResponses({
             @ApiResponse(code = 400, message = HttpStatusMessage.MSG_400, response = ExceptionResponse.class),
