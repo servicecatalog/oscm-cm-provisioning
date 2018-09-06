@@ -56,6 +56,7 @@ public class InstanceServiceImpl implements InstanceService {
         return Optional.empty();
     }
 
+
     @Override
     public List<InstanceDTO> findAll() {
 
@@ -63,5 +64,17 @@ public class InstanceServiceImpl implements InstanceService {
         List<InstanceDTO> mappedInstances = instances.stream().map(i -> mapper.map(i, InstanceDTO.class)).collect(Collectors.toList());
 
         return mappedInstances;
+    }
+
+
+    @Override
+    public void save(InstanceDTO instanceDTO) {
+
+        Instance instance = mapper.map(instanceDTO, Instance.class);
+
+        instance.getInstanceParameters().forEach(param -> param.setInstance(instance));
+        instance.getInstanceAttributes().forEach(att -> att.setInstance(instance));
+        repository.save(instance);
+
     }
 }

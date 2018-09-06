@@ -76,6 +76,54 @@ public class InstanceResource {
         return instance.get().getAttributes();
     }
 
+    @PutMapping("/")
+    public ResponseEntity<InstanceDTO> updateInstance(@RequestBody InstanceDTO instanceDTO){
+
+
+        Optional<InstanceDTO> result = instanceService.findById(instanceDTO.getId());
+        if(result.isPresent()){
+            Map<String, String> keyToValue = instanceDTO.getAttributes().stream().collect(Collectors.toMap(
+                    InstanceAttributeDTO::getKey,
+                    InstanceAttributeDTO::getValue
+            ));
+            for (InstanceAttributeDTO instanceAttributeDTO : result.get().getAttributes()) {
+                String newValue = keyToValue.get(instanceAttributeDTO.getKey());
+                if(newValue != null) {
+                    instanceAttributeDTO.setValue(newValue);
+                    keyToValue.remove(instanceAttributeDTO.getKey());
+                }
+            }
+            for (InstanceAttributeDTO instanceAttributeDTO : instanceDTO.getAttributes()) {
+                if(keyToValue.containsKey(instanceAttributeDTO.getKey())) {
+                    result.get().getAttributes().add(instanceAttributeDTO);
+                }
+            }
+
+            Map<String, String> keyToValueParam = instanceDTO.getParameters().stream().collect(Collectors.toMap(
+                    InstanceParameterDTO::getKey,
+                    InstanceParameterDTO::getValue
+            ));
+            for (InstanceParameterDTO instanceParameterDTO : result.get().getParameters()) {
+                String newValue = keyToValueParam.get(instanceParameterDTO.getKey());
+                if(newValue != null) {
+                    instanceParameterDTO.setValue(newValue);
+                    keyToValueParam.remove(instanceParameterDTO.getKey());
+                }
+            }
+            for (InstanceAttributeDTO instanceAttributeDTO : instanceDTO.getAttributes()) {
+                if(keyToValueParam.containsKey(instanceAttributeDTO.getKey())) {
+                    result.get().getAttributes().add(instanceAttributeDTO);
+                }
+            }
+
+
+            instanceService.save(instanceDTO);
+            return ResponseEntity.ok(instanceDTO);
+        }
+        else return ResponseEntity.badRequest().body(instanceDTO);
+
+    }
+
 
     @PostMapping("/instances")
     public ResponseEntity<InstanceDTO> createInstance(@Valid @RequestBody InstanceDTO instanceDTO) {

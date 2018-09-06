@@ -12,4 +12,6 @@ public interface InstanceService {
     Optional<InstanceDTO> findById(long id);
 
     List<InstanceDTO> findAll();
+
+    void save(InstanceDTO instanceDTO);
 }
