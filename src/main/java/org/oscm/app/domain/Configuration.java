@@ -10,7 +10,7 @@ import java.util.List;
 public class Configuration {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)

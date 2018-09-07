@@ -3,10 +3,11 @@ package org.oscm.app.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"key", "configurationId"}))
 public class ConfigurationSetting {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
@@ -16,6 +17,7 @@ public class ConfigurationSetting {
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "configurationId", nullable = false)
     private Configuration configuration;
 
     public long getId() {

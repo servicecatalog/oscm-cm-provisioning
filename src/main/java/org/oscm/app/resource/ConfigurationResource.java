@@ -2,6 +2,7 @@ package org.oscm.app.resource;
 
 import io.swagger.annotations.*;
 import org.oscm.app.dto.ConfigurationDTO;
+import org.oscm.app.dto.ConfigurationSettingDTO;
 import org.oscm.app.dto.ControllerDTO;
 import org.oscm.app.exception.ExceptionResponse;
 import org.oscm.app.exception.ObjectNotFoundException;
@@ -13,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,21 +68,23 @@ public class ConfigurationResource {
         checkIfConfigurationAlreadyExists(configuration);
         ConfigurationDTO createdConfiguration = configurationService.createConfiguration(configuration);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdConfiguration);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(createdConfiguration.getId()).toUri();
+
+        return ResponseEntity.created(location).body(createdConfiguration);
     }
 
     @ApiOperation("Retrieves existing configuration")
     @ApiResponses({
             @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
     })
-    @GetMapping("/configurations/{id}")
+    @GetMapping("/configurations/{configurationId}")
     public ResponseEntity<ConfigurationDTO> getConfiguration(
-            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long id) {
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId) {
 
-        Optional<ConfigurationDTO> configuration = configurationService.getConfigurationById(id);
-        checkIfIdOfConfigurationIsValid(id, configuration);
+        ConfigurationDTO configuration = checkIfIdOfConfigurationIsValid(configurationId);
 
-        return ResponseEntity.ok(configuration.get());
+        return ResponseEntity.ok(configuration);
     }
 
     @ApiOperation("Updates existing configuration")
@@ -87,37 +92,123 @@ public class ConfigurationResource {
             @ApiResponse(code = 400, message = HttpStatusMessage.MSG_400, response = ExceptionResponse.class),
             @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
     })
-    @PutMapping("/configurations/{id}")
+    @PutMapping("/configurations/{configurationId}")
     public ResponseEntity<ConfigurationDTO> updateConfiguration(
-            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long id,
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId,
             @ApiParam(value = ApiParamValue.CONFIGURATION, required = true)
             @Valid @RequestBody ConfigurationDTO configuration) {
 
-        Optional<ConfigurationDTO> configurationDTO = configurationService.getConfigurationById(id);
-        checkIfIdOfConfigurationIsValid(id, configurationDTO);
-        configuration.setId(id);
+        checkIfIdOfConfigurationIsValid(configurationId);
+        configuration.setId(configurationId);
         checkIfConfigurationAlreadyExists(configuration);
-        configurationService.updateConfiguration(configuration);
+        ConfigurationDTO updatedConfiguration = configurationService.updateConfiguration(configuration);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updatedConfiguration);
     }
 
     @ApiOperation("Deletes configuration")
     @ApiResponses({
             @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
     })
-    @DeleteMapping("/configurations/{id}")
+    @DeleteMapping("/configurations/{configurationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteConfiguration(
-            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long id) {
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId) {
 
-        Optional<ConfigurationDTO> configurationDTO = configurationService.getConfigurationById(id);
-        checkIfIdOfConfigurationIsValid(id, configurationDTO);
-        configurationService.deleteConfiguration(id);
+        checkIfIdOfConfigurationIsValid(configurationId);
+        configurationService.deleteConfiguration(configurationId);
 
         return ResponseEntity.noContent().build();
     }
 
+    @ApiOperation("Retrieves configuration settings")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
+    })
+    @GetMapping("/configurations/{configurationId}/settings")
+    public ResponseEntity<List<ConfigurationSettingDTO>> getConfigurationSettings(
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId) {
+
+        checkIfIdOfConfigurationIsValid(configurationId);
+        List<ConfigurationSettingDTO> settings = configurationService.getConfigurationSettings(configurationId);
+
+        return ResponseEntity.ok(settings);
+    }
+
+    @ApiOperation("Creates new configuration's setting")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = HttpStatusMessage.MSG_400, response = ExceptionResponse.class),
+            @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
+    })
+    @PostMapping("/configurations/{configurationId}/settings")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ConfigurationSettingDTO> createConfigurationSettings(
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId,
+            @ApiParam(value = ApiParamValue.SETTING, required = true) @Valid @RequestBody ConfigurationSettingDTO setting) {
+
+        checkIfIdOfConfigurationIsValid(configurationId);
+        checkIfSettingAlreadyExists(configurationId, setting);
+
+        ConfigurationSettingDTO createdSetting = configurationService.createConfigurationSetting(configurationId, setting);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{settingId}")
+                .buildAndExpand(createdSetting.getId()).toUri();
+
+        return ResponseEntity.created(location).body(createdSetting);
+    }
+
+    @ApiOperation("Retrieves existing configuration's setting")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
+    })
+    @GetMapping("/configurations/{configurationId}/settings/{settingId}")
+    public ResponseEntity<ConfigurationSettingDTO> getConfigurationSetting(
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId,
+            @ApiParam(value = ApiParamValue.SETTING_ID, required = true) @PathVariable long settingId) {
+
+        checkIfIdOfConfigurationIsValid(configurationId);
+        ConfigurationSettingDTO setting = checkIfIdOfSettingIsValid(settingId);
+
+        return ResponseEntity.ok(setting);
+    }
+
+    @ApiOperation("Updates existing configuration's setting")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = HttpStatusMessage.MSG_400, response = ExceptionResponse.class),
+            @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
+    })
+    @PutMapping("/configurations/{configurationId}/settings/{settingId}")
+    public ResponseEntity<ConfigurationSettingDTO> updateConfigurationSetting(
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId,
+            @ApiParam(value = ApiParamValue.SETTING_ID, required = true) @PathVariable long settingId,
+            @ApiParam(value = ApiParamValue.SETTING, required = true) @RequestBody @Valid ConfigurationSettingDTO setting) {
+
+        checkIfIdOfConfigurationIsValid(configurationId);
+        checkIfIdOfSettingIsValid(settingId);
+
+        setting.setId(settingId);
+        ConfigurationSettingDTO updatedSetting = configurationService.updateConfigurationSetting(setting);
+
+        return ResponseEntity.ok(updatedSetting);
+    }
+
+    @ApiOperation("Deletes configuration's setting")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = HttpStatusMessage.MSG_404, response = ExceptionResponse.class)
+    })
+    @DeleteMapping("/configurations/{configurationId}/settings/{settingId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteConfigurationSetting(
+            @ApiParam(value = ApiParamValue.CONFIGURATION_ID, required = true) @PathVariable long configurationId,
+            @ApiParam(value = ApiParamValue.SETTING_ID, required = true) @PathVariable long settingId) {
+        
+        checkIfIdOfConfigurationIsValid(configurationId);
+        checkIfIdOfSettingIsValid(settingId);
+
+        configurationService.deleteConfigurationSetting(settingId);
+
+        return ResponseEntity.noContent().build();
+    }
 
     private void checkIfConfigurationAlreadyExists(ConfigurationDTO configuration) {
 
@@ -130,9 +221,31 @@ public class ConfigurationResource {
         }
     }
 
-    private void checkIfIdOfConfigurationIsValid(long id, Optional<ConfigurationDTO> configuration) {
+    private void checkIfSettingAlreadyExists(long configurationId, ConfigurationSettingDTO setting) {
 
-        configuration.orElseThrow(() -> new ObjectNotFoundException("Configuration [id=" + id + "] " +
-                "has not been found"));
+        String settingKey = setting.getKey();
+        boolean exists = configurationService.checkIfSettingAlreadyExists(configurationId, settingKey);
+        if (exists) {
+            throw new ValidationException("Setting [key=" + settingKey + "] already exists in " +
+                    "configuration [configurationId=" + configurationId + "]");
+        }
+    }
+
+    private ConfigurationDTO checkIfIdOfConfigurationIsValid(long id) {
+
+        Optional<ConfigurationDTO> configuration = configurationService.getConfigurationById(id);
+        if (!configuration.isPresent()) {
+            throw new ObjectNotFoundException("Configuration [id=" + id + "] has not been found");
+        }
+        return configuration.get();
+    }
+
+    private ConfigurationSettingDTO checkIfIdOfSettingIsValid(long settingId) {
+
+        Optional<ConfigurationSettingDTO> setting = configurationService.getConfigurationSettingById(settingId);
+        if (!setting.isPresent()) {
+            throw new ObjectNotFoundException("Setting [id=" + settingId + "] has not been found");
+        }
+        return setting.get();
     }
 }
