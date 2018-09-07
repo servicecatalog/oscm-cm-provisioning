@@ -1,10 +1,10 @@
 package org.oscm.app.resource;
 
 import org.oscm.app.dto.InstanceAttributeDTO;
+import org.oscm.app.dto.InstanceDTO;
 import org.oscm.app.dto.InstanceParameterDTO;
 import org.oscm.app.exception.ObjectNotFoundException;
 import org.oscm.app.service.intf.InstanceService;
-import org.oscm.app.dto.InstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class InstanceResource {
