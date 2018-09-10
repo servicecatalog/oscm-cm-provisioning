@@ -11,12 +11,12 @@ public class ConfigurationSettingDTO {
     @ApiModelProperty(position = 1, notes="Identifier of the setting", readOnly = true)
     private long id;
 
-    @NotEmpty
     @ApiModelProperty(position = 2, notes = "Unique setting's key", required = true)
+    @NotEmpty
     private String key;
 
-    @NotEmpty
     @ApiModelProperty(position = 3, notes = "Setting's value", required = true)
+    @NotEmpty
     private String value;
 
     public long getId() {

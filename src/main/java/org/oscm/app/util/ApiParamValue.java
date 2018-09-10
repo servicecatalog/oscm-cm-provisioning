@@ -2,6 +2,9 @@ package org.oscm.app.util;
 
 public class ApiParamValue {
 
+    public static final String INSTANCE_ID = "Id of existing instance";
+    public static final String INSTANCE = "Instance object";
+
     public static final String CONFIGURATION_ID = "Id of existing configuration";
     public static final String CONFIGURATION = "Simple configuration object";
 

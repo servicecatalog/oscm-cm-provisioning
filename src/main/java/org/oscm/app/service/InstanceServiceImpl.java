@@ -25,7 +25,7 @@ public class InstanceServiceImpl implements InstanceService {
     private ModelMapper mapper;
 
     @Override
-    public InstanceDTO create(InstanceDTO instanceDTO) {
+    public InstanceDTO createInstance(InstanceDTO instanceDTO) {
 
         Instance instance = mapper.map(instanceDTO, Instance.class);
 
@@ -45,7 +45,7 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
-    public Optional<InstanceDTO> findById(long id) {
+    public Optional<InstanceDTO> getInstance(long id) {
 
         Optional<Instance> instance = repository.findById(id);
         if(instance.isPresent()){
@@ -56,14 +56,18 @@ public class InstanceServiceImpl implements InstanceService {
         return Optional.empty();
     }
 
-
     @Override
-    public List<InstanceDTO> findAll() {
+    public List<InstanceDTO> getAllInstances() {
 
         List<Instance> instances = repository.findAll();
         List<InstanceDTO> mappedInstances = instances.stream().map(i -> mapper.map(i, InstanceDTO.class)).collect(Collectors.toList());
 
         return mappedInstances;
+    }
+
+    @Override
+    public void deleteInstance(long id) {
+        repository.deleteById(id);
     }
 
 
@@ -75,6 +79,5 @@ public class InstanceServiceImpl implements InstanceService {
         instance.getInstanceParameters().forEach(param -> param.setInstance(instance));
         instance.getInstanceAttributes().forEach(att -> att.setInstance(instance));
         repository.save(instance);
-
     }
 }

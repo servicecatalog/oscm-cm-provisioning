@@ -56,7 +56,7 @@ public class InstanceServiceTest {
         Mockito.when(repository.findById(1l)).thenReturn(Optional.of(instance));
 
         //when
-        InstanceDTO instanceDTO = service.findById(1).get();
+        InstanceDTO instanceDTO = service.getInstance(1).get();
 
         //then
         assertEquals(instanceDTO.getOrganizationId(), instance.getOrganizationId());

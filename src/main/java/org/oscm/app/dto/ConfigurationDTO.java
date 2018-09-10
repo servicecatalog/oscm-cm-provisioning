@@ -13,13 +13,14 @@ public class ConfigurationDTO {
     @ApiModelProperty(position = 1, notes="Identifier of existing configuration", readOnly = true)
     private long id;
 
+    @ApiModelProperty(position = 2, notes = "Id of the APP controller",
+            allowableValues = "ess.aws, ess.openstack, ess.azure, ess.vmware", required = true)
     @NotEmpty
     @ControllerId
-    @ApiModelProperty(position = 2, notes = "Id of the APP controller", allowableValues = "ess.aws, ess.openstack, ess.azure, ess.vmware", required = true)
     private String controllerId;
 
-    @NotEmpty
     @ApiModelProperty(position = 3, notes = "Id of existing organization", required = true)
+    @NotEmpty
     private String organizationId;
 
     public long getId() {

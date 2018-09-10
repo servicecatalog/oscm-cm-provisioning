@@ -1,11 +1,17 @@
 package org.oscm.app.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "Parameter", description = "Parameter of the instance")
 public class InstanceParameterDTO {
 
     private long id;
 
+    @ApiModelProperty(notes="Unique key describing instance's parameter")
     private String key;
 
+    @ApiModelProperty(notes="Value of instance's parameter")
     private String value;
 
     public long getId() {

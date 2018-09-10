@@ -1,11 +1,18 @@
 package org.oscm.app.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "Attribute", description = "Attribute of the instance")
 public class InstanceAttributeDTO {
 
+    @ApiModelProperty(notes="Identifier of teh attribute", readOnly = true)
     private long id;
 
+    @ApiModelProperty(notes="Unique key describing instance's attribute")
     private String key;
 
+    @ApiModelProperty(notes="Value of instance's attribute")
     private String value;
 
     public long getId() {

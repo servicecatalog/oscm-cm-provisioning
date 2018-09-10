@@ -7,11 +7,13 @@ import java.util.Optional;
 
 public interface InstanceService {
 
-    InstanceDTO create(InstanceDTO instanceDTO);
+    InstanceDTO createInstance(InstanceDTO instanceDTO);
 
-    Optional<InstanceDTO> findById(long id);
+    Optional<InstanceDTO> getInstance(long id);
 
-    List<InstanceDTO> findAll();
+    List<InstanceDTO> getAllInstances();
+
+    void deleteInstance(long id);
 
     void save(InstanceDTO instanceDTO);
 }

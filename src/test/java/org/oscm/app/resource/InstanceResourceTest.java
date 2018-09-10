@@ -42,7 +42,7 @@ public class InstanceResourceTest {
         instanceDTO.setProvisioningStatus(ProvisioningStatus.COMPLETED);
         instanceDTO.setSubscriptionId("sub_3451245");
 
-        Mockito.when(instanceService.findById(1)).thenReturn(Optional.of(instanceDTO));
+        Mockito.when(instanceService.getInstance(1)).thenReturn(Optional.of(instanceDTO));
 
         // when and then
         mvc.perform(get("/instances/1"))
@@ -71,7 +71,7 @@ public class InstanceResourceTest {
         instanceDTO2.setProvisioningStatus(ProvisioningStatus.COMPLETED);
         instanceDTO2.setSubscriptionId("sub_3451245");
 
-        Mockito.when(instanceService.findAll())
+        Mockito.when(instanceService.getAllInstances())
                 .thenReturn(Arrays.asList(instanceDTO, instanceDTO2));
 
         // when and then
