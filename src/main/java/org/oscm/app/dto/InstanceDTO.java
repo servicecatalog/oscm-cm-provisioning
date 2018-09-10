@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.oscm.app.domain.enumeration.ProvisioningStatus;
 import org.oscm.app.validation.ControllerId;
+import org.oscm.app.validation.ReadOnly;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 public class InstanceDTO {
 
     @ApiModelProperty(position = 1, notes="Identifier of existing instance", readOnly = true)
+    @ReadOnly
     private long id;
 
     @ApiModelProperty(position = 2, notes="Identifier of existing organization", required = true)
@@ -31,15 +33,19 @@ public class InstanceDTO {
     private String referenceId;
 
     @ApiModelProperty(position = 6, notes="Status of instance provisioning process", readOnly = true)
+    @ReadOnly
     private ProvisioningStatus provisioningStatus;
 
     @ApiModelProperty(position = 7, notes="Latest message related to instance provisioning process", readOnly = true)
+    @ReadOnly
     private String provisioningMsg;
 
     @ApiModelProperty(position = 8, notes="Timestamp of the instance creation", readOnly = true)
+    @ReadOnly
     private LocalDateTime requestTime;
 
     @ApiModelProperty(position = 9, notes="Unique, automatically generated instance's identifier", readOnly = true)
+    @ReadOnly
     private String instanceId;
 
     @ControllerId

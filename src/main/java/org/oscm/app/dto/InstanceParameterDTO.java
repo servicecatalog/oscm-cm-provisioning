@@ -2,10 +2,13 @@ package org.oscm.app.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.oscm.app.validation.ReadOnly;
 
 @ApiModel(value = "Parameter", description = "Parameter of the instance")
 public class InstanceParameterDTO {
 
+    @ApiModelProperty(notes="Identifier of teh parameter", readOnly = true)
+    @ReadOnly
     private long id;
 
     @ApiModelProperty(notes="Unique key describing instance's parameter")

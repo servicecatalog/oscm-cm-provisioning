@@ -2,6 +2,7 @@ package org.oscm.app.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.oscm.app.validation.ReadOnly;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 public class ConfigurationSettingDTO {
 
     @ApiModelProperty(position = 1, notes="Identifier of the setting", readOnly = true)
+    @ReadOnly
     private long id;
 
     @ApiModelProperty(position = 2, notes = "Unique setting's key", required = true)
