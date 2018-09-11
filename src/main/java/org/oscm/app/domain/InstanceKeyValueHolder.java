@@ -6,7 +6,7 @@ import javax.persistence.*;
 public abstract class InstanceKeyValueHolder {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String key;

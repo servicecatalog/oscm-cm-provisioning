@@ -2,12 +2,10 @@ package org.oscm.app.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.oscm.app.domain.enumeration.ProvisioningStatus;
 import org.oscm.app.validation.ControllerId;
 import org.oscm.app.validation.ReadOnly;
 
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import java.util.List;
 public class InstanceDTO {
 
     @ApiModelProperty(position = 1, notes="Identifier of existing instance", readOnly = true)
-    @ReadOnly
     private long id;
 
     @ApiModelProperty(position = 2, notes="Identifier of existing organization", required = true)
@@ -34,7 +31,7 @@ public class InstanceDTO {
 
     @ApiModelProperty(position = 6, notes="Status of instance provisioning process", readOnly = true)
     @ReadOnly
-    private ProvisioningStatus provisioningStatus;
+    private String provisioningStatus;
 
     @ApiModelProperty(position = 7, notes="Latest message related to instance provisioning process", readOnly = true)
     @ReadOnly
@@ -42,7 +39,7 @@ public class InstanceDTO {
 
     @ApiModelProperty(position = 8, notes="Timestamp of the instance creation", readOnly = true)
     @ReadOnly
-    private LocalDateTime requestTime;
+    private String requestTime;
 
     @ApiModelProperty(position = 9, notes="Unique, automatically generated instance's identifier", readOnly = true)
     @ReadOnly
@@ -100,11 +97,11 @@ public class InstanceDTO {
         this.referenceId = referenceId;
     }
 
-    public ProvisioningStatus getProvisioningStatus() {
+    public String getProvisioningStatus() {
         return provisioningStatus;
     }
 
-    public void setProvisioningStatus(ProvisioningStatus provisioningStatus) {
+    public void setProvisioningStatus(String provisioningStatus) {
         this.provisioningStatus = provisioningStatus;
     }
 
@@ -116,11 +113,11 @@ public class InstanceDTO {
         this.provisioningMsg = provisioningMsg;
     }
 
-    public LocalDateTime getRequestTime() {
+    public String getRequestTime() {
         return requestTime;
     }
 
-    public void setRequestTime(LocalDateTime requestTime) {
+    public void setRequestTime(String requestTime) {
         this.requestTime = requestTime;
     }
 

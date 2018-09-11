@@ -8,7 +8,6 @@ import org.oscm.app.validation.ReadOnly;
 public class InstanceAttributeDTO {
 
     @ApiModelProperty(notes="Identifier of teh attribute", readOnly = true)
-    @ReadOnly
     private long id;
 
     @ApiModelProperty(notes="Unique key describing instance's attribute")

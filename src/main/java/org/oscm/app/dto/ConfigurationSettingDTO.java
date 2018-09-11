@@ -10,7 +10,6 @@ import javax.validation.constraints.NotEmpty;
 public class ConfigurationSettingDTO {
 
     @ApiModelProperty(position = 1, notes="Identifier of the setting", readOnly = true)
-    @ReadOnly
     private long id;
 
     @ApiModelProperty(position = 2, notes = "Unique setting's key", required = true)

@@ -12,7 +12,6 @@ import javax.validation.constraints.NotEmpty;
 public class ConfigurationDTO {
 
     @ApiModelProperty(position = 1, notes="Identifier of existing configuration", readOnly = true)
-    @ReadOnly
     private long id;
 
     @ApiModelProperty(position = 2, notes = "Id of the APP controller",
