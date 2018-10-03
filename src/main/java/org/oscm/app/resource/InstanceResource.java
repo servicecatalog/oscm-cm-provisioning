@@ -83,7 +83,7 @@ public class InstanceResource {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/")
+    @PutMapping("/instances")
     public ResponseEntity<InstanceDTO> updateInstance(@RequestBody InstanceDTO instanceDTO){
 
         Optional<InstanceDTO> result = instanceService.getInstance(instanceDTO.getId());
