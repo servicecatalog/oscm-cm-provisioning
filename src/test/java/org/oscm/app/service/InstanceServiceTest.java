@@ -48,6 +48,7 @@ public class InstanceServiceTest {
 
         //given
         Instance instance = new Instance();
+        instance.setId(1);
         instance.setOrganizationId("sampleOrgId");
         instance.setReferenceId("13de453w");
         instance.setControllerId("ess.vmware");
@@ -62,7 +63,7 @@ public class InstanceServiceTest {
         assertEquals(instanceDTO.getOrganizationId(), instance.getOrganizationId());
         assertEquals(instanceDTO.getReferenceId(), instance.getReferenceId());
         assertEquals(instanceDTO.getControllerId(), instance.getControllerId());
-        assertEquals(instanceDTO.getProvisioningStatus(), instance.getProvisioningStatus());
+        assertEquals(instanceDTO.getProvisioningStatus(), instance.getProvisioningStatus().toString());
         assertEquals(instanceDTO.getSubscriptionId(), instance.getSubscriptionId());
     }
 
