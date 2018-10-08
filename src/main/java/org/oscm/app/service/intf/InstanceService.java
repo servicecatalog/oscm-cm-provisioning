@@ -1,3 +1,10 @@
+/*******************************************************************************
+ *
+ *  Copyright FUJITSU LIMITED 2018
+ *
+ *  Creation Date: 08.10.2018
+ *
+ *******************************************************************************/
 package org.oscm.app.service.intf;
 
 import org.oscm.app.dto.InstanceDTO;
